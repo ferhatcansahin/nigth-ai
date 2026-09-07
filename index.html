@@ -144,39 +144,50 @@
 
   </div>
 
-  <script>
-    function sendMessage() {
+<script>
+const API_KEY = "AIzaSy...AAQ.Ab8RN6J_ucsaQMsEAyLGoTMo7H31fcPQXIZpXzoBtUyDL98Mqw"; // Tırnakların içine yapıştır
 
-      const input = document.getElementById("userInput");
-      const messages = document.getElementById("messages");
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const messages = document.getElementById("messages");
+  const text = input.value.trim();
+  if (text === "") return;
 
-      const text = input.value.trim();
+  // Kullanıcı mesajı
+  messages.innerHTML += <div class="message user">${text}</div>;
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
 
-      if (text === "") return;
+  // Yükleniyor
+  messages.innerHTML += <div class="message ai" id="loading">Yazıyor...</div>;
+  messages.scrollTop = messages.scrollHeight;
 
-      const userMessage = document.createElement("div");
-      userMessage.className = "message user";
-      userMessage.textContent = text;
+  try {
+    const res = await fetch(https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{ 
+            text: Sen NIGHT AI'sın. UMBRA TÜRK'ün kanka modunda asistanısın. Samimi, kısa, direkt ve biraz sokak ağzıyla konuş. Emoji kullanabilirsin. Soru: ${text} 
+          }]
+        }]
+      })
+    });
 
-      messages.appendChild(userMessage);
+    const data = await res.json();
+    const reply = data.candidates[0].content.parts[0].text;
 
-      input.value = "";
+    document.getElementById("loading").remove();
+    messages.innerHTML += <div class="message ai">${reply}</div>;
 
-      setTimeout(() => {
-
-        const aiMessage = document.createElement("div");
-        aiMessage.className = "message ai";
-
-        aiMessage.textContent =
-          "Mesajını aldım. 🤖 Yakında gerçek Nigth AI zekâsıyla cevap vereceğim.";
-
-        messages.appendChild(aiMessage);
-
-        messages.scrollTop = messages.scrollHeight;
-
-      }, 500);
-    }
-  </script>
+  } catch(e) {
+    document.getElementById("loading").remove();
+    messages.innerHTML += <div class="message ai">Hata oldu kanka: API key'i kontrol et</div>;
+  }
+  messages.scrollTop = messages.scrollHeight;
+}
+</script>
 
 </body>
 </html>
