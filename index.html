@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nigth AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #999;
+      margin-bottom: 40px;
+      font-size: 18px;
+    }
+
+    .chat-box {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    #messages {
+      min-height: 120px;
+      max-height: 350px;
+      overflow-y: auto;
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      line-height: 1.5;
+    }
+
+    .ai {
+      background: #222;
+    }
+
+    .user {
+      background: #333;
+      text-align: right;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #0d0d0d;
+      color: white;
+      outline: none;
+    }
+
+    button {
+      padding: 15px 22px;
+      border: none;
+      border-radius: 10px;
+      background: white;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">🌑</div>
+
+    <h1>Nigth AI</h1>
+
+    <p class="subtitle">
+      Senin kişisel yapay zekâ asistanın
+    </p>
+
+    <div class="chat-box">
+
+      <div id="messages">
+        <div class="message ai">
+          Merhaba! Ben Nigth AI. 🌑<br>
+          Bugün ne yapıyoruz?
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input
+          id="userInput"
+          type="text"
+          placeholder="Nigth AI'a bir şey sor..."
+          onkeydown="if(event.key === 'Enter') sendMessage()"
+        >
+
+        <button onclick="sendMessage()">
+          Gönder
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function sendMessage() {
+
+      const input = document.getElementById("userInput");
+      const messages = document.getElementById("messages");
+
+      const text = input.value.trim();
+
+      if (text === "") return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user";
+      userMessage.textContent = text;
+
+      messages.appendChild(userMessage);
+
+      input.value = "";
+
+      setTimeout(() => {
+
+        const aiMessage = document.createElement("div");
+        aiMessage.className = "message ai";
+
+        aiMessage.textContent =
+          "Mesajını aldım. 🤖 Yakında gerçek Nigth AI zekâsıyla cevap vereceğim.";
+
+        messages.appendChild(aiMessage);
+
+        messages.scrollTop = messages.scrollHeight;
+
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
